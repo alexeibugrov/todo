@@ -61,7 +61,6 @@ func (c Cache) InitPool(redisHost, redisUser, redisPassword, redisPort string) R
 
 	pool := redis.NewPool(func() (redis.Conn, error) {
 		return redis.Dial("tcp", redisAddr,
-				redis.DialUsername("redisUser"),
 		        redis.DialPassword("redisPassword"),
     )
 	}, maxConnections)
