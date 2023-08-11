@@ -33,9 +33,9 @@ type RedisPool interface {
 var ErrCacheMiss = fmt.Errorf("item is not in cache")
 
 // NewCache returns an initialized cache ready to go.
-func NewCache(redisHost, redisPort string, enabled bool) (*Cache, error) {
+func NewCache(redisHost, redisUser, redisPassword, redisPort string, enabled bool) (*Cache, error) {
 	c := &Cache{}
-	pool := c.InitPool(redisHost, redisPort)
+	pool := c.InitPool(redisHost, redisUser, redisPassword, redisPort)
 	c.enabled = enabled
 	c.redisPool = pool
 	return c, nil
@@ -53,14 +53,17 @@ func (c *Cache) log(msg string) {
 }
 
 // InitPool starts the cache off
-func (c Cache) InitPool(redisHost, redisPort string) RedisPool {
+func (c Cache) InitPool(redisHost, redisUser, redisPassword, redisPort string) RedisPool {
 	redisAddr := fmt.Sprintf("%s:%s", redisHost, redisPort)
 	msg := fmt.Sprintf("Initialized Redis at %s", redisAddr)
 	c.log(msg)
 	const maxConnections = 10
 
 	pool := redis.NewPool(func() (redis.Conn, error) {
-		return redis.Dial("tcp", redisAddr)
+		return redis.Dial("tcp", redisAddr,
+				redis.DialUsername("redisUser"),
+		        redis.DialPassword("redisPassword"),
+    )
 	}, maxConnections)
 
 	return pool

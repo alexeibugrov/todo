@@ -37,11 +37,13 @@ func main() {
 	name := os.Getenv("todo_name")
 	redisHost := os.Getenv("REDISHOST")
 	redisPort := os.Getenv("REDISPORT")
+	redisUser := os.Getenv("REDISUSER")
+	redisPassword := os.Getenv("REDISPASSWORD")
 	port := os.Getenv("PORT")
 
 	fmt.Printf("Port: %s\n", port)
 
-	if err := storage.Init(user, pass, host, name, redisHost, redisPort, true); err != nil {
+	if err := storage.Init(user, pass, host, name, redisHost, redisUser, redisPassword, redisPort, true); err != nil {
 		panic(err)
 	}
 	defer storage.sqlstorage.Close()

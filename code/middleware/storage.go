@@ -23,13 +23,13 @@ type Storage struct {
 }
 
 // Init kicks off the database connector
-func (s *Storage) Init(user, password, host, name, redisHost, redisPort string, cache bool) error {
+func (s *Storage) Init(user, password, host, name, redisHost, redisUser, redisPassword, redisPort string, cache bool) error {
 	if err := s.sqlstorage.Init(user, password, host, name); err != nil {
 		return err
 	}
 
 	var err error
-	s.cache, err = NewCache(redisHost, redisPort, cache)
+	s.cache, err = NewCache(redisHost, redisUser, redisPassword, redisPort, cache)
 	if err != nil {
 		return err
 	}

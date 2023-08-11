@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-var basepath = "//127.0.0.1:9000/api/v1/todo";
-
+var basepath = "https://goapi.grayriver-37711f7c.westeurope.azurecontainerapps.io/api/v1/todo";
+https://goapi.grayriver-37711f7c.westeurope.azurecontainerapps.io
 document.addEventListener('DOMContentLoaded', function(){
     listTodos();
 });
